@@ -1,0 +1,64 @@
+---
+// src/layouts/BaseLayout.astro
+import BaseHead from '@/components/BaseHead/index.astro';
+import CursorShadow from '@/components/CursorShadow/index.astro';
+
+// 接收來自 index.astro 的 props
+const { title, description, schema } = Astro.props;
+---
+
+<script>
+  import { gsap } from 'gsap';
+  import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
+
+  gsap.registerPlugin(ScrollToPlugin);
+
+  const setupSmoothScroll = () => {
+    const links = document.querySelectorAll('a[href^="#"]');
+    // 🔍 關鍵：先判斷捲軸是在 window還是在特定的 main 容器
+    // 如果你的 CSS 讓 .main-content 擁有 overflow-y: auto，請改為它
+    const scrollContainer = window;
+
+    links.forEach((link) => {
+      link.addEventListener('click', (e) => {
+        const targetId = link.getAttribute('href');
+        if (!targetId || targetId === '#') return;
+
+        const targetElement = document.querySelector(targetId);
+
+        if (targetElement) {
+          e.preventDefault();
+
+          gsap.to(scrollContainer, {
+            duration: 1.2,
+            scrollTo: {
+              y: targetElement,
+              // 如果你有 padding 或固定 Header，記得在這裡調整 offset
+              autoKill: true,
+            },
+            ease: 'power4.inOut',
+          });
+
+          history.pushState(null, '', targetId);
+        }
+      });
+    });
+  };
+
+  document.addEventListener('astro:page-load', setupSmoothScroll);
+  setupSmoothScroll();
+</script>
+
+<html lang="zh-Hant" data-theme="dark">
+  <head>
+    <BaseHead title={title} description={description} />
+
+    {/* 🚀 GEO 100分關鍵：注入結構化資料 */}
+    {schema && <script type="application/ld+json" set:html={JSON.stringify(schema)} />}
+  </head>
+  <body>
+    <CursorShadow />
+    {/* 保持 slot，移除多餘的 main 以符合 SEO 語義化規範 */}
+    <slot />
+  </body>
+</html>

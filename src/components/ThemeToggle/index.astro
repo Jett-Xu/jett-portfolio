@@ -1,0 +1,93 @@
+---
+import { Icon } from 'astro-icon/components';
+---
+
+<button id="theme-toggle" aria-label="切換深色模式" class="theme-toggle">
+  <div class="icon-container">
+    <Icon name="lucide:sun" class="icon light-icon" />
+    <Icon name="lucide:moon" class="icon dark-icon" />
+  </div>
+</button>
+
+<script>
+  const handleToggleClick = () => {
+    const element = document.documentElement;
+    const isDark = element.getAttribute('data-theme') === 'dark';
+    const newTheme = isDark ? 'light' : 'dark';
+
+    if (newTheme === 'light') {
+      element.removeAttribute('data-theme');
+    } else {
+      element.setAttribute('data-theme', 'dark');
+    }
+
+    localStorage.setItem('theme', newTheme);
+  };
+
+  document.getElementById('theme-toggle')?.addEventListener('click', handleToggleClick);
+</script>
+
+<style>
+  .theme-toggle {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px;
+    transition: background-color 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    box-shadow: none;
+    outline: none;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .icon-container {
+    position: relative;
+    width: 20px;
+    height: 20px;
+  }
+
+  .icon {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transition:
+      transform 0.5s cubic-bezier(0.23, 1, 0.32, 1),
+      opacity 0.4s ease;
+  }
+
+  /* 亮色模式：顯示太陽，隱藏月亮 (月亮被推到下方並縮小) */
+  :global(:not([data-theme='dark'])) .light-icon {
+    opacity: 1;
+    transform: translateY(0) rotate(0deg) scale(1);
+  }
+  :global(:not([data-theme='dark'])) .dark-icon {
+    opacity: 0;
+    transform: translateY(10px) rotate(45deg) scale(0.5);
+  }
+
+  /* 深色模式：顯示月亮，隱藏太陽 (太陽被推到上方) */
+  :global([data-theme='dark']) .light-icon {
+    opacity: 0;
+    transform: translateY(-10px) rotate(-45deg) scale(0.5);
+  }
+  :global([data-theme='dark']) .dark-icon {
+    opacity: 1;
+    transform: translateY(0) rotate(0deg) scale(1);
+  }
+
+  /* 設定 Icon 顏色，繼承你的文字色 */
+  .light-icon {
+    color: #f59e0b;
+  } /* 太陽可以用一點暖色 */
+  .dark-icon {
+    color: #94a3b8;
+  } /* 月亮用冷色 */
+</style>

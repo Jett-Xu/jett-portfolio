@@ -1,0 +1,66 @@
+<div id="cursor-outline"></div>
+<div id="cursor-spotlight"></div>
+
+<script>
+  const outline = document.getElementById('cursor-outline');
+  const spotlight = document.getElementById('cursor-spotlight');
+
+  // 🔍 職人優化：判斷是否為「非觸控設備」且寬度大於 1024px
+  // 這樣不僅是看螢幕寬度，也確保是有滑鼠的裝置才啟動
+  const isDesktop = window.matchMedia('(min-width: 1024px) and (pointer: fine)').matches;
+
+  if (isDesktop && outline && spotlight) {
+    window.addEventListener('mousemove', (e) => {
+      const { clientX, clientY } = e;
+
+      requestAnimationFrame(() => {
+        // 圓圈跟隨
+        outline.style.transform = `translate(${clientX}px, ${clientY}px)`;
+        // 光影位置
+        spotlight.style.transform = `translate(${clientX}px, ${clientY}px)`;
+      });
+    });
+  }
+</script>
+
+<style>
+  /* 預設隱藏，只有在電腦版才顯示 */
+  #cursor-outline,
+  #cursor-spotlight {
+    display: none;
+    position: fixed;
+    pointer-events: none;
+    border-radius: 50%;
+  }
+
+  @media (min-width: 1024px) {
+    #cursor-outline {
+      display: block;
+      top: -8px;
+      left: -8px;
+      width: 16px;
+      height: 16px;
+      border: 1px solid var(--cursor-border);
+      z-index: 9999;
+      transition: transform 0.15s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    #cursor-spotlight {
+      display: block;
+      top: -300px;
+      left: -300px;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(
+        circle at center,
+        rgba(var(--spotlight-color), var(--spotlight-opacity)) 0%,
+        rgba(var(--spotlight-color), calc(var(--spotlight-opacity) * 0.1)) 30%,
+        rgba(var(--spotlight-color), 0) 100%
+      );
+      filter: blur(30px);
+      mix-blend-mode: screen;
+      z-index: 9998;
+      transition: transform 0.3s cubic-bezier(0.1, 1, 0.3, 1);
+    }
+  }
+</style>

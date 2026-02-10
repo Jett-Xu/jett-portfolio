@@ -1,0 +1,26 @@
+---
+// ... 現有的 import
+import { Icon } from 'astro-icon/components';
+import ThemeToggle from '@/components/ThemeToggle/index.astro';
+import './index.scss';
+---
+
+<nav class="mobile-footer" aria-label="手機版導航">
+  <div class="glass-container">
+    <a href="#about" aria-label="關於我">
+      <Icon name="lucide:user" />
+    </a>
+    <a href="#experience" aria-label="工作經歷">
+      <Icon name="lucide:briefcase" />
+    </a>
+    <a href="#projects" aria-label="專案作品">
+      <Icon name="lucide:folder-kanban" />
+    </a>
+    <a href="#articles" aria-label="文章作品">
+      <Icon name="lucide:book-open" />
+    </a>
+    <div class="toggle-wrapper">
+      <ThemeToggle />
+    </div>
+  </div>
+</nav>

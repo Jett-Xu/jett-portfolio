@@ -1,0 +1,68 @@
+.mobile-footer {
+  display: none; // 預設隱藏
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 4rem);
+  max-width: 300px;
+  z-index: 100;
+
+  @media (max-width: 1023px) {
+    display: block; // 手機模式才顯示
+  }
+
+  .glass-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 0.5rem 0.5rem;
+
+    // 玻璃毛邊質感核心樣式
+    background: rgba(255, 255, 255, 0.1); // 半透明白
+    backdrop-filter: blur(12px) saturate(180%); // 毛玻璃模糊與飽和度
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.2); // 邊框亮邊效果
+    border-radius: 18px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+
+    a,
+    .toggle-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-text-primary);
+      font-size: 1.5rem;
+      transition: color 0.3s ease;
+      cursor: pointer;
+
+      &:active {
+        transform: scale(0.9);
+      }
+
+      svg {
+        width: 20px;
+        height: 20px;
+      }
+    }
+  }
+}
+
+// 針對深色模式微調（如果需要的話）
+[data-theme='dark'] .mobile-footer .glass-container {
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+// 隱藏輔助文字（SEO/Accessibility）
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
