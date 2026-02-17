@@ -1,0 +1,65 @@
+---
+// Experience Section 元件
+import ExperienceCard from '@/components/ExperienceCard/index.astro';
+
+interface Experience {
+  data: {
+    date: string;
+    title: string;
+    company: string;
+    companyUrl?: string;
+    links?: Array<{ name: string; url: string }>;
+    tags: string[];
+  };
+  render: () => Promise<{ Content: any }>;
+}
+
+interface Props {
+  experiences: Experience[];
+}
+
+const { experiences } = Astro.props;
+---
+
+<section id="experience" class="experience-section" aria-label="工作經歷">
+  <header class="mobile-sticky-header">EXPERIENCE</header>
+  <div class="section-content">
+    <div class="experience-list">
+      {
+        experiences.map(async (exp) => {
+          const { Content } = await exp.render();
+          return (
+            <ExperienceCard
+              date={exp.data.date}
+              title={exp.data.title}
+              company={exp.data.company}
+              companyUrl={exp.data.companyUrl}
+              links={exp.data.links}
+              tags={exp.data.tags}
+              content={Content}
+            />
+          );
+        })
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .experience-section {
+    position: relative;
+
+    .experience-list {
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+    }
+
+    @media (max-width: 1023px) {
+      .section-content {
+        padding-top: 2rem;
+        padding-bottom: 4rem;
+      }
+    }
+  }
+</style>

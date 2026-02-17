@@ -1,0 +1,60 @@
+---
+// Articles Section 元件
+import ArticleCard from '@/components/ArticleCard/index.astro';
+
+interface Article {
+  data: {
+    title: string;
+    image: string;
+    url: string;
+  };
+  render: () => Promise<{ Content: any }>;
+}
+
+interface Props {
+  articles: Article[];
+}
+
+const { articles } = Astro.props;
+---
+
+<section id="articles" class="article-section" aria-label="技術文章">
+  <header class="mobile-sticky-header">ARTICLE</header>
+  <div class="section-content">
+    <div class="article-list">
+      {
+        articles.map(async (article) => {
+          const { Content } = await article.render();
+          return (
+            <ArticleCard
+              title={article.data.title}
+              image={article.data.image}
+              url={article.data.url}
+              content={Content}
+            />
+          );
+        })
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .article-section {
+    margin-top: 4rem;
+    position: relative;
+
+    .article-list {
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+    }
+
+    @media (max-width: 1023px) {
+      .section-content {
+        padding-top: 2rem;
+        padding-bottom: 4rem;
+      }
+    }
+  }
+</style>

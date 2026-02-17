@@ -3,18 +3,21 @@
 // all pages through the use of the <BaseHead /> component.
 import '@/styles/global.scss';
 import type { ImageMetadata } from 'astro';
-import FallbackImage from '@/assets/blog-placeholder-1.jpg';
 import { SITE_TITLE } from '@/consts';
 
 interface Props {
   title: string;
   description: string;
-  image?: ImageMetadata;
+  /** 用於 og:image / twitter:image；可為 Astro ImageMetadata 或 public 路徑字串 */
+  image?: ImageMetadata | string;
 }
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
-const { title, description, image = FallbackImage } = Astro.props;
+const { title, description, image = '/placeholder.svg' } = Astro.props;
+
+const ogImageUrl =
+  typeof image === 'string' ? new URL(image, Astro.site) : new URL(image.src, Astro.site);
 ---
 
 <!-- Global Metadata -->
@@ -48,16 +51,19 @@ const { title, description, image = FallbackImage } = Astro.props;
 <meta property="og:url" content={Astro.url} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
-<meta property="og:image" content={new URL(image.src, Astro.url)} />
+<meta property="og:image" content={ogImageUrl} />
 
 <!-- Twitter -->
 <meta property="twitter:card" content="summary_large_image" />
 <meta property="twitter:url" content={Astro.url} />
 <meta property="twitter:title" content={title} />
 <meta property="twitter:description" content={description} />
-<meta property="twitter:image" content={new URL(image.src, Astro.url)} />
+<meta property="twitter:image" content={ogImageUrl} />
 
 <meta name="color-scheme" content="light dark" />
+<!-- theme-color：瀏覽器 UI 色（淺色／深色各一） -->
+<meta name="theme-color" content="#fafcff" media="(prefers-color-scheme: light)" />
+<meta name="theme-color" content="#0b111e" media="(prefers-color-scheme: dark)" />
 
 <script is:inline>
   const theme = (() => {

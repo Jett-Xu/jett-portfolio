@@ -1,0 +1,105 @@
+<nav class="navigation-links" aria-label="分頁導航">
+  <ul>
+    <li>
+      <a href="#about" class="nav-link">
+        <span class="nav-line"></span>
+        <span class="nav-text">ABOUT</span>
+      </a>
+    </li>
+    <li>
+      <a href="#experience" class="nav-link">
+        <span class="nav-line"></span>
+        <span class="nav-text">EXPERIENCE</span>
+      </a>
+    </li>
+    <li>
+      <a href="#projects" class="nav-link">
+        <span class="nav-line"></span>
+        <span class="nav-text">PROJECTS</span>
+      </a>
+    </li>
+    <li>
+      <a href="#articles" class="nav-link">
+        <span class="nav-line"></span>
+        <span class="nav-text">ARTICLES</span>
+      </a>
+    </li>
+  </ul>
+</nav>
+
+<style>
+  .navigation-links {
+    display: none;
+
+    @media (min-width: 1024px) {
+      display: block;
+      margin-top: 4rem;
+    }
+
+    ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    li {
+      margin: 0;
+      padding: 0;
+    }
+
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 0.9375rem; /* 約 15px，線條與文字間距 */
+      text-decoration: none;
+      color: var(--nav-text-default);
+      font-weight: 400;
+      font-size: 1rem;
+      letter-spacing: 0.05em;
+      transition:
+        color 0.3s ease,
+        font-weight 0.3s ease;
+      cursor: pointer;
+      position: relative;
+
+      /* 預設狀態：灰藍色 (#7a829e)，細體，線條可見但較短 */
+      .nav-line {
+        display: block;
+        width: 2rem; /* 約 32px，預設較短 */
+        height: 2px;
+        background-color: var(--nav-line-default);
+        transition:
+          width 0.3s ease,
+          background-color 0.3s ease;
+        flex-shrink: 0;
+      }
+
+      .nav-text {
+        display: block;
+        white-space: nowrap;
+      }
+
+      /* Hover 狀態：亮灰/白色 (#dde0e3)，粗體，線條展開 */
+      &:hover,
+      &:focus-visible {
+        color: var(--nav-text-hover);
+        font-weight: 600;
+
+        .nav-line {
+          width: 3.5rem; /* 約 56px，hover 時展開至接近文字寬度 */
+          background-color: var(--nav-line-hover);
+        }
+      }
+
+      /* Focus 樣式 */
+      &:focus-visible {
+        outline: 2px solid var(--color-border-focus);
+        outline-offset: 4px;
+        border-radius: 2px;
+      }
+    }
+  }
+</style>

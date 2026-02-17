@@ -57,6 +57,7 @@ const { title, description, schema } = Astro.props;
     {schema && <script type="application/ld+json" set:html={JSON.stringify(schema)} />}
   </head>
   <body>
+    <a href="#main-content" class="skip-to-content">跳至主要內容</a>
     <CursorShadow />
     {/* 保持 slot，移除多餘的 main 以符合 SEO 語義化規範 */}
     <slot />

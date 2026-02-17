@@ -1,32 +1,42 @@
 ---
 import { getCollection, getEntry } from 'astro:content';
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import ThemeToggle from '@/components/ThemeToggle/index.astro';
 import Footer from '@/components/Footer/index.astro';
-import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+import NavigationLinks from '@/components/NavigationLinks/index.astro';
+import AboutSection from '@/components/AboutSection/index.astro';
+import ExperienceSection from '@/components/ExperienceSection/index.astro';
+import ProjectsSection from '@/components/ProjectsSection/index.astro';
+import ArticlesSection from '@/components/ArticlesSection/index.astro';
+import { SITE_TITLE, SITE_DESCRIPTION, SITE_URL } from '../consts';
 import { Icon } from 'astro-icon/components';
 import './index.scss';
 
-// 取得並排序內容
-// 1. 取得 About 內容
+// 取得並排序內容（含錯誤處理：載入失敗時顯示 fallback）
 const aboutEntry = await getEntry('about', 'index');
-const { Content: AboutContent } = aboutEntry ? await aboutEntry.render() : { Content: null };
+let AboutContent: Awaited<ReturnType<NonNullable<typeof aboutEntry>['render']>>['Content'] | null = null;
+if (aboutEntry) {
+  try {
+    const rendered = await aboutEntry.render();
+    AboutContent = rendered.Content;
+  } catch {
+    AboutContent = null;
+  }
+}
 
 const allExperience = (await getCollection('experience')).sort(
   (a, b) => a.data.order - b.data.order
 );
-
 const allProjects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
-
 const allArticles = (await getCollection('articles')).sort((a, b) => a.data.order - b.data.order);
-// GEO 關鍵：Person Schema
+
+// GEO 關鍵：Person Schema（使用 consts 中的 SITE_URL）
 const schema = {
   '@context': 'https://schema.org',
   '@type': 'Person',
   name: 'Jett',
-  url: 'https://your-domain.com',
+  url: SITE_URL,
   jobTitle: 'Frontend Engineer',
-  description: '致力於打造優質使用者體驗的前端工程師，專長於網頁無障礙與效能優化。',
+  description: SITE_DESCRIPTION,
   knowsAbout: ['Frontend Development', 'Web Accessibility', 'Astro', 'React'],
 };
 ---
@@ -38,29 +48,24 @@ const schema = {
         <h1>Jett</h1>
         <h2>Frontend Engineer</h2>
         <p>一位致力於打造優質使用者體驗的前端工程師</p>
-        <nav class="scroll-link" aria-label="分頁導航">
-          <ul>
-            <li><a href="#about">ABOUT</a></li>
-            <li><a href="#experience">EXPERIENCE</a></li>
-            <li><a href="#projects">PROJECTS</a></li>
-          </ul>
-        </nav>
+        <NavigationLinks />
       </div>
 
       <ul class="social-media" aria-label="社群連結">
         <li>
-          <a href="#" target="_blank" aria-label="GitHub">
+          <a href="#" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
             <Icon name="lucide:github" />
             <span class="sr-only">前往我的 GitHub 頁面</span>
           </a>
         </li>
         <li>
-          <a href="#" target="_blank" aria-label="LinkedIn">
+          <a href="#" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
             <Icon name="lucide:linkedin" />
             <span class="sr-only">前往我的 LinkedIn 頁面</span>
           </a>
         </li>
         <li>
+          {/* TODO: [由 Jett 補充內容] 請填入實際 Email */}
           <a href="mailto:test@test.com" aria-label="Email">
             <Icon name="lucide:mail" />
             <span class="sr-only">發送電子郵件給我</span>
@@ -70,120 +75,11 @@ const schema = {
       </ul>
     </header>
 
-    <main class="main-content">
-      <section id="about" class="about-section" aria-label="關於我">
-        <header class="mobile-sticky-header">ABOUT</header>
-        <div class="section-content">
-          {/* {AboutContent ? <AboutContent /> : <p>Loading...</p>} */}
-          {AboutContent && <AboutContent />}
-        </div>
-      </section>
-
-      <section id="experience" class="experience-section" aria-label="工作經歷">
-        <header class="mobile-sticky-header">EXPERIENCE</header>
-        <div class="section-content">
-          <div class="experience-list">
-            {
-              allExperience.map(async (exp) => {
-                const { Content } = await exp.render();
-                return (
-                  <article class="experience-card">
-                    <div class="experience-meta">
-                      <time class="experience-date">{exp.data.date}</time>
-                      <h3 class="experience-title">
-                        <a href={exp.data.companyUrl} target="_blank">
-                          {exp.data.title} · {exp.data.company}
-                        </a>
-                      </h3>
-                    </div>
-                    <div class="experience-desc">
-                      <Content />
-                      {exp.data.links && (
-                        <div class="experience-links">
-                          {exp.data.links.map((link) => (
-                            <a href={link.url}>{link.name}</a>
-                          ))}
-                        </div>
-                      )}
-                      <div class="experience-tags">
-                        {exp.data.tags.map((tag) => (
-                          <span>{tag}</span>
-                        ))}
-                      </div>
-                    </div>
-                  </article>
-                );
-              })
-            }
-          </div>
-        </div>
-      </section>
-
-      <section id="projects" class="projects-section" aria-label="專案作品">
-        <header class="mobile-sticky-header">PROJECTS</header>
-        <div class="section-content">
-          <div class="projects-list">
-            {
-              allProjects.map(async (proj) => {
-                const { Content } = await proj.render();
-                return (
-                  <article class="project-card">
-                    <div class="project-thumb">
-                      <img src={proj.data.image} alt={proj.data.title} loading="lazy" />
-                    </div>
-                    <div class="project-info">
-                      <h3 class="project-title-row">
-                        <a href={proj.data.url} class="project-title" target="_blank">
-                          {proj.data.title} <span class="icon-arrow">↗</span>
-                        </a>
-                      </h3>
-                      <div class="project-desc">
-                        <Content />
-                        {proj.data.stats && <div class="project-meta">{proj.data.stats}</div>}
-                      </div>
-                      <div class="project-tags">
-                        {proj.data.tags.map((tag) => (
-                          <span>{tag}</span>
-                        ))}
-                      </div>
-                    </div>
-                  </article>
-                );
-              })
-            }
-          </div>
-        </div>
-      </section>
-
-      <section id="articles" class="article-section" aria-label="專案作品">
-        <header class="mobile-sticky-header">ARTICLE</header>
-        <div class="section-content">
-          <div class="article-list">
-            {
-              allArticles.map(async (article) => {
-                const { Content } = await article.render();
-                return (
-                  <article class="article-card">
-                    <div class="article-thumb">
-                      <img src={article.data.image} alt={article.data.title} loading="lazy" />
-                    </div>
-                    <div class="article-info">
-                      <h3 class="article-title-row">
-                        <a href={article.data.url} class="article-title" target="_blank">
-                          {article.data.title} <span class="icon-arrow">↗</span>
-                        </a>
-                      </h3>
-                      <div class="article-desc">
-                        <Content />
-                      </div>
-                    </div>
-                  </article>
-                );
-              })
-            }
-          </div>
-        </div>
-      </section>
+    <main id="main-content" class="main-content">
+      <AboutSection content={AboutContent} />
+      <ExperienceSection experiences={allExperience} />
+      <ProjectsSection projects={allProjects} />
+      <ArticlesSection articles={allArticles} />
       <Footer />
     </main>
   </div>

@@ -1,0 +1,64 @@
+---
+// Projects Section 元件
+import ProjectCard from '@/components/ProjectCard/index.astro';
+
+interface Project {
+  data: {
+    title: string;
+    image: string;
+    url: string;
+    tags: string[];
+    stats?: string;
+  };
+  render: () => Promise<{ Content: any }>;
+}
+
+interface Props {
+  projects: Project[];
+}
+
+const { projects } = Astro.props;
+---
+
+<section id="projects" class="projects-section" aria-label="專案作品">
+  <header class="mobile-sticky-header">PROJECTS</header>
+  <div class="section-content">
+    <div class="projects-list">
+      {
+        projects.map(async (proj) => {
+          const { Content } = await proj.render();
+          return (
+            <ProjectCard
+              title={proj.data.title}
+              image={proj.data.image}
+              url={proj.data.url}
+              tags={proj.data.tags}
+              stats={proj.data.stats}
+              content={Content}
+            />
+          );
+        })
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .projects-section {
+    margin-top: 4rem;
+    position: relative;
+
+    .projects-list {
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+    }
+
+    @media (max-width: 1023px) {
+      .section-content {
+        padding-top: 2rem;
+        padding-bottom: 4rem;
+      }
+    }
+  }
+</style>

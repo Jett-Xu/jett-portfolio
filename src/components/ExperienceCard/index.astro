@@ -1,0 +1,236 @@
+---
+// Experience Card 元件 - 兩欄佈局（日期左欄，工作詳情右欄）
+import { Icon } from 'astro-icon/components';
+
+interface Props {
+  date: string;
+  title: string;
+  company: string;
+  companyUrl?: string;
+  links?: Array<{ name: string; url: string }>;
+  tags: string[];
+  content: any; // Astro Content component
+}
+
+const { date, title, company, companyUrl, links, tags, content: Content } = Astro.props;
+---
+
+<article class="experience-card">
+  <div class="experience-layout">
+    <!-- 左欄：日期 -->
+    <div class="experience-date-column">
+      <time class="experience-date">{date}</time>
+    </div>
+
+    <!-- 右欄：工作詳情 -->
+    <div class="experience-content-column">
+      <!-- 標題與公司名稱 -->
+      <h3 class="experience-title">
+        {
+          companyUrl ? (
+            <a
+              href={companyUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="experience-title-link"
+            >
+              {title} · {company}
+              <Icon name="lucide:external-link" class="external-link-icon" />
+            </a>
+          ) : (
+            <span>
+              {title} · {company}
+            </span>
+          )
+        }
+      </h3>
+
+      <!-- 工作描述 -->
+      <div class="experience-desc">
+        <Content />
+      </div>
+
+      <!-- 相關連結（如果有） -->
+      {
+        links && links.length > 0 && (
+          <div class="experience-links">
+            {links.map((link) => (
+              <a href={link.url} target="_blank" rel="noopener noreferrer" class="experience-link">
+                {link.name}
+              </a>
+            ))}
+          </div>
+        )
+      }
+
+      <!-- 技能標籤 -->
+      {
+        tags && tags.length > 0 && (
+          <div class="experience-tags">
+            {tags.map((tag) => (
+              <span class="experience-tag">{tag}</span>
+            ))}
+          </div>
+        )
+      }
+    </div>
+  </div>
+</article>
+
+<style>
+  .experience-card {
+    background: var(--color-bg-primary);
+    border-radius: 0.75rem; /* 約 12px，符合附圖 */
+    padding: 2rem;
+    border: 1px solid var(--color-border-secondary);
+    transition:
+      background 0.3s ease,
+      box-shadow 0.3s ease;
+    position: relative;
+    overflow: hidden;
+
+    &:hover {
+      background: var(--color-bg-glass);
+      box-shadow: 0 4px 24px 0 var(--color-shadow-medium);
+    }
+  }
+
+  .experience-layout {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 2.5rem; /* 左右欄間距 */
+    align-items: start;
+
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+  }
+
+  /* 左欄：日期 */
+  .experience-date-column {
+    min-width: 140px; /* 確保日期欄有足夠寬度 */
+
+    @media (max-width: 768px) {
+      min-width: auto;
+    }
+  }
+
+  .experience-date {
+    color: var(--color-text-tertiary);
+    font-size: 1rem;
+    letter-spacing: 0.05em;
+    white-space: nowrap;
+    display: block;
+  }
+
+  /* 右欄：工作詳情 */
+  .experience-content-column {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem; /* 標題、描述、標籤之間的垂直間距 */
+  }
+
+  .experience-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0;
+    line-height: 1.4;
+  }
+
+  .experience-title-link {
+    color: var(--color-primary);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: var(--color-primary-hover);
+    }
+
+    .external-link-icon {
+      width: 1rem;
+      height: 1rem;
+      flex-shrink: 0;
+    }
+  }
+
+  .experience-desc {
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+    font-size: 1rem;
+
+    p {
+      margin: 0 0 0.75rem 0;
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+
+    /* Markdown 列表樣式 */
+    ul,
+    ol {
+      margin: 0.5rem 0;
+      /* padding-left: 1.5rem; */
+    }
+
+    li {
+      margin-bottom: 0.5rem;
+    }
+
+    /* Markdown 強調樣式 */
+    strong {
+      font-weight: 600;
+      color: var(--color-text-primary);
+    }
+  }
+
+  .experience-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 0.5rem;
+  }
+
+  .experience-link {
+    color: var(--color-primary);
+    font-size: 0.95rem;
+    text-decoration: underline;
+    text-decoration-style: dotted;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: var(--color-primary-hover);
+    }
+  }
+
+  /* 技能標籤 - 邊框樣式（符合附圖） */
+  .experience-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+  }
+
+  .experience-tag {
+    display: inline-block;
+    padding: 0.4em 1em;
+    border: 1px solid var(--color-primary);
+    border-radius: 999px; /* 圓角標籤 */
+    color: var(--color-primary);
+    font-size: 0.875rem;
+    letter-spacing: 0.02em;
+    background: transparent;
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease;
+
+    &:hover {
+      background-color: var(--color-primary);
+      color: var(--color-text-inverse);
+    }
+  }
+</style>

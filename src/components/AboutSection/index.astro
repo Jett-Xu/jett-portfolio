@@ -1,0 +1,44 @@
+---
+// About Section 元件
+interface Props {
+  content: any; // Astro Content component or null
+}
+
+const { content: AboutContent } = Astro.props;
+---
+
+<section id="about" class="about-section" aria-label="關於我">
+  <header class="mobile-sticky-header">ABOUT</header>
+  <div class="section-content">
+    {AboutContent ? (
+      <AboutContent />
+    ) : (
+      <div class="content-fallback" role="status" aria-live="polite">
+        <p>關於我的內容暫時無法載入，請稍後再試。</p>
+      </div>
+    )}
+  </div>
+</section>
+
+<style>
+  .about-section {
+    position: relative;
+
+    @media (max-width: 1023px) {
+      .section-content {
+        padding-top: 2rem;
+        padding-bottom: 4rem;
+      }
+    }
+  }
+
+  .content-fallback {
+    padding: var(--spacing-lg) 0;
+    color: var(--color-text-secondary);
+    font-size: 1rem;
+    p {
+      margin: 0;
+      line-height: 1.6;
+    }
+  }
+</style>
