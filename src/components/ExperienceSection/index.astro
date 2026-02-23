@@ -8,7 +8,6 @@ interface Experience {
     title: string;
     company: string;
     companyUrl?: string;
-    links?: Array<{ name: string; url: string }>;
     tags: string[];
   };
   render: () => Promise<{ Content: any }>;
@@ -34,7 +33,6 @@ const { experiences } = Astro.props;
               title={exp.data.title}
               company={exp.data.company}
               companyUrl={exp.data.companyUrl}
-              links={exp.data.links}
               tags={exp.data.tags}
               content={Content}
             />

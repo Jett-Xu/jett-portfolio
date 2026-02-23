@@ -7,13 +7,16 @@ import AboutSection from '@/components/AboutSection/index.astro';
 import ExperienceSection from '@/components/ExperienceSection/index.astro';
 import ProjectsSection from '@/components/ProjectsSection/index.astro';
 import ArticlesSection from '@/components/ArticlesSection/index.astro';
+import ServicesSection from '@/components/ServicesSection/index.astro';
+import WorkflowSection from '@/components/WorkflowSection/index.astro';
 import { SITE_TITLE, SITE_DESCRIPTION, SITE_URL } from '../consts';
 import { Icon } from 'astro-icon/components';
 import './index.scss';
 
 // 取得並排序內容（含錯誤處理：載入失敗時顯示 fallback）
 const aboutEntry = await getEntry('about', 'index');
-let AboutContent: Awaited<ReturnType<NonNullable<typeof aboutEntry>['render']>>['Content'] | null = null;
+let AboutContent: Awaited<ReturnType<NonNullable<typeof aboutEntry>['render']>>['Content'] | null =
+  null;
 if (aboutEntry) {
   try {
     const rendered = await aboutEntry.render();
@@ -80,6 +83,8 @@ const schema = {
       <ExperienceSection experiences={allExperience} />
       <ProjectsSection projects={allProjects} />
       <ArticlesSection articles={allArticles} />
+      <ServicesSection />
+      <WorkflowSection />
       <Footer />
     </main>
   </div>

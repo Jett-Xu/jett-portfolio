@@ -15,14 +15,6 @@ const experience = defineCollection({
     title: z.string(),
     company: z.string(),
     companyUrl: z.string().url().optional(),
-    links: z
-      .array(
-        z.object({
-          name: z.string(),
-          url: z.string().url(),
-        })
-      )
-      .optional(),
     tags: z.array(z.string()),
   }),
 });
@@ -49,4 +41,23 @@ const articles = defineCollection({
   }),
 });
 
-export const collections = { about, experience, projects, articles };
+const services = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    order: z.number(),
+    icon: z.string(), // Lucide icon name (e.g. globe, layers, bot)
+    tags: z.array(z.string()),
+  }),
+});
+
+const workflow = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    order: z.number(),
+    icon: z.string(), // Lucide icon name (e.g. message-circle, file-check)
+  }),
+});
+
+export const collections = { about, experience, projects, articles, services, workflow };

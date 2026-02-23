@@ -3,7 +3,6 @@ order: 3
 date: '2023.06 — 2024.03'
 title: '前端工程師 (Frontend Engineer)'
 company: '六書堂數位股份有限公司'
-companyUrl: 'https://example.com'
 tags: ['Vue 3', 'Nuxt', 'Migration', 'System Design']
 ---
 

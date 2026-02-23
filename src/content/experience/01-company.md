@@ -3,7 +3,6 @@ order: 1
 date: '2024.06 — 2026.01'
 title: '前端工程師 (Frontend Engineer)'
 company: '無名科技有限公司'
-companyUrl: 'https://example.com'
 tags: ['React', 'Next.js', 'DDD', 'Nx Monorepo', 'Service Worker']
 ---
 

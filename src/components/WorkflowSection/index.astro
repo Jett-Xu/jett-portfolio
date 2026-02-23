@@ -1,0 +1,176 @@
+---
+import { getCollection } from 'astro:content';
+import { Icon } from 'astro-icon/components';
+
+const allSteps = (await getCollection('workflow')).sort(
+  (a, b) => a.data.order - b.data.order
+);
+
+const stepsWithContent = await Promise.all(
+  allSteps.map(async (entry) => {
+    const { Content } = await entry.render();
+    return { entry, Content };
+  })
+);
+---
+
+<section id="workflow" class="workflow-section" aria-label="合作流程">
+  <header class="mobile-sticky-header">WORKFLOW</header>
+  <div class="section-content">
+    <p class="workflow-intro">從需求到上線，每個階段都清楚透明，讓您放心交付。</p>
+    <ol class="workflow-timeline">
+      {
+        stepsWithContent.map(({ entry, Content }, i) => {
+          const stepNum = i + 1;
+          const iconName = `lucide:${entry.data.icon}`;
+          return (
+            <li class="workflow-step">
+              <div class="workflow-step-marker" aria-hidden="true">
+                <span class="workflow-step-num">{stepNum}</span>
+                <span class="workflow-step-line" />
+              </div>
+              <div class="workflow-step-content">
+                <div class="workflow-step-icon">
+                  <Icon name={iconName} />
+                </div>
+                <h3 class="workflow-step-title">{entry.data.title}</h3>
+                <div class="workflow-step-desc">
+                  <Content />
+                </div>
+              </div>
+            </li>
+          );
+        })
+      }
+    </ol>
+  </div>
+</section>
+
+<style>
+  .workflow-section {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+
+    @media (max-width: 1023px) {
+      .section-content {
+        padding-top: 2rem;
+        padding-bottom: 4rem;
+      }
+    }
+  }
+
+  .section-content {
+    flex: 1;
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+    max-width: 42rem;
+  }
+
+  .workflow-intro {
+    margin: 0 0 2.5rem 0;
+    color: var(--color-text-secondary);
+    font-size: 1rem;
+    line-height: 1.6;
+    letter-spacing: 0.02em;
+  }
+
+  .workflow-timeline {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .workflow-step {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1.5rem;
+    align-items: start;
+    position: relative;
+    padding-bottom: 2.5rem;
+  }
+
+  .workflow-step:last-child {
+    padding-bottom: 0;
+  }
+
+  .workflow-step:last-child .workflow-step-line {
+    display: none;
+  }
+
+  .workflow-step-marker {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+  }
+
+  .workflow-step-num {
+    width: 2.25rem;
+    height: 2.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-text-inverse);
+    background: var(--color-primary);
+    border-radius: 50%;
+    flex-shrink: 0;
+    box-shadow: 0 2px 12px 0 var(--color-shadow-medium);
+  }
+
+  .workflow-step-line {
+    flex: 1;
+    min-height: 1.5rem;
+    width: 2px;
+    margin-top: 0.5rem;
+    background: linear-gradient(
+      to bottom,
+      var(--color-border-primary),
+      rgba(255, 255, 255, 0.06)
+    );
+    border-radius: 1px;
+  }
+
+  .workflow-step-content {
+    padding-top: 0.125rem;
+  }
+
+  .workflow-step-icon {
+    width: 1.5rem;
+    height: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: var(--color-primary);
+
+    :global(svg) {
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  .workflow-step-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    margin: 0 0 0.5rem 0;
+    color: var(--color-text-primary);
+    letter-spacing: 0.02em;
+  }
+
+  .workflow-step-desc {
+    font-size: 0.9375rem;
+    line-height: 1.65;
+    color: var(--color-text-secondary);
+  }
+
+  .workflow-step-desc :global(p) {
+    margin: 0 0 0.5rem 0;
+  }
+  .workflow-step-desc :global(p:last-child) {
+    margin-bottom: 0;
+  }
+</style>

@@ -13,10 +13,10 @@ const { title, description, schema } = Astro.props;
 
   gsap.registerPlugin(ScrollToPlugin);
 
+  const SECTION_IDS = ['about', 'experience', 'projects', 'articles', 'services', 'workflow'];
+
   const setupSmoothScroll = () => {
     const links = document.querySelectorAll('a[href^="#"]');
-    // 🔍 關鍵：先判斷捲軸是在 window還是在特定的 main 容器
-    // 如果你的 CSS 讓 .main-content 擁有 overflow-y: auto，請改為它
     const scrollContainer = window;
 
     links.forEach((link) => {
@@ -33,7 +33,6 @@ const { title, description, schema } = Astro.props;
             duration: 1.2,
             scrollTo: {
               y: targetElement,
-              // 如果你有 padding 或固定 Header，記得在這裡調整 offset
               autoKill: true,
             },
             ease: 'power4.inOut',
@@ -45,8 +44,62 @@ const { title, description, schema } = Astro.props;
     });
   };
 
-  document.addEventListener('astro:page-load', setupSmoothScroll);
-  setupSmoothScroll();
+  const setupScrollSpy = () => {
+    const nav = document.querySelector('.navigation-links');
+    if (!nav) return;
+
+    const setActive = (activeId: string | null) => {
+      nav.querySelectorAll('.nav-link').forEach((link) => {
+        if (link.getAttribute('data-section') === activeId) {
+          link.classList.add('is-active');
+        } else {
+          link.classList.remove('is-active');
+        }
+      });
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const inView: Array<{ id: string; top: number }> = [];
+        entries.forEach((entry) => {
+          const id = entry.target.id;
+          if (!id || !SECTION_IDS.includes(id)) return;
+          if (entry.isIntersecting) {
+            inView.push({ id, top: entry.boundingClientRect.top });
+          }
+        });
+        if (inView.length === 0) return;
+        inView.sort((a, b) => a.top - b.top);
+        setActive(inView[0].id);
+      },
+      { root: null, rootMargin: '-20% 0px -65% 0px', threshold: 0 }
+    );
+
+    SECTION_IDS.forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+
+    requestAnimationFrame(() => {
+      const y = window.scrollY + window.innerHeight * 0.3;
+      let activeId: string | null = null;
+      for (const id of SECTION_IDS) {
+        const el = document.getElementById(id);
+        if (!el) continue;
+        const top = el.getBoundingClientRect().top + window.scrollY;
+        if (top <= y) activeId = id;
+      }
+      if (activeId) setActive(activeId);
+    });
+  };
+
+  const init = () => {
+    setupSmoothScroll();
+    setupScrollSpy();
+  };
+
+  document.addEventListener('astro:page-load', init);
+  init();
 </script>
 
 <html lang="zh-Hant" data-theme="dark">

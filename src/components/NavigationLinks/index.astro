@@ -1,27 +1,39 @@
 <nav class="navigation-links" aria-label="分頁導航">
   <ul>
     <li>
-      <a href="#about" class="nav-link">
+      <a href="#about" class="nav-link" data-section="about">
         <span class="nav-line"></span>
-        <span class="nav-text">ABOUT</span>
+        <span class="nav-text">關於我</span>
       </a>
     </li>
     <li>
-      <a href="#experience" class="nav-link">
+      <a href="#experience" class="nav-link" data-section="experience">
         <span class="nav-line"></span>
-        <span class="nav-text">EXPERIENCE</span>
+        <span class="nav-text">經歷</span>
       </a>
     </li>
     <li>
-      <a href="#projects" class="nav-link">
+      <a href="#projects" class="nav-link" data-section="projects">
         <span class="nav-line"></span>
-        <span class="nav-text">PROJECTS</span>
+        <span class="nav-text">作品</span>
       </a>
     </li>
     <li>
-      <a href="#articles" class="nav-link">
+      <a href="#articles" class="nav-link" data-section="articles">
         <span class="nav-line"></span>
-        <span class="nav-text">ARTICLES</span>
+        <span class="nav-text">文章</span>
+      </a>
+    </li>
+    <li>
+      <a href="#services" class="nav-link" data-section="services">
+        <span class="nav-line"></span>
+        <span class="nav-text">服務項目</span>
+      </a>
+    </li>
+    <li>
+      <a href="#workflow" class="nav-link" data-section="workflow">
+        <span class="nav-line"></span>
+        <span class="nav-text">合作流程</span>
       </a>
     </li>
   </ul>
@@ -82,14 +94,15 @@
         white-space: nowrap;
       }
 
-      /* Hover 狀態：亮灰/白色 (#dde0e3)，粗體，線條展開 */
+      /* Hover / Focus / Active（scroll-spy）狀態：亮灰/白色，粗體，線條展開 */
       &:hover,
-      &:focus-visible {
+      &:focus-visible,
+      &.is-active {
         color: var(--nav-text-hover);
         font-weight: 600;
 
         .nav-line {
-          width: 3.5rem; /* 約 56px，hover 時展開至接近文字寬度 */
+          width: 3.5rem;
           background-color: var(--nav-line-hover);
         }
       }

@@ -1,79 +1,93 @@
 # Jett Portfolio
 
-這是一個基於 **Astro** 構建的高效能個人作品集網站，旨在展示個人經歷、專案作品與技術文章。透過極簡的設計與流暢的體驗，呈現專業的 Frontend Engineer 形象。
+以 **Astro** 建置的個人作品集／接案展示站，單頁式架構，強調 **SEO / AEO / GEO** 友善。用於呈現經歷、專案、文章、服務項目與合作流程。
 
-## ✨ 特色
+## 特色
 
-- **極速效能**：利用 Astro 的靜態生成 (SSG) 架構，確保網頁載入輕量且快速。
-- **結構化內容管理**：透過 Astro Content Collections (`src/content/`) 輕鬆維護「關於我」、「工作經歷」、「專案作品」與「文章」。
-- **優化閱讀體驗**：
-  - **響應式設計**：針對桌面與行動裝置優化的佈局，包含手機版黏性導航與平滑滾動。
-  - **SEO 友善**：內建 JSON-LD 結構化資料 (`Person` Schema) 與語意化 HTML 標籤。
-  - **互動細節**：整合 `CursorShadow` 游標效果與細緻的微互動動畫。
-- **現代化開發棧**：採用 TypeScript、SCSS/SASS 進行開發，確保程式碼的可維護性與擴充性。
+- **靜態生成 (SSG)**：Astro 輸出靜態 HTML，載入輕量、利於搜尋與效能。
+- **內容集中管理**：透過 Content Collections 管理「關於我」、「經歷」、「專案」、「文章」、「服務」、「合作流程」，型別安全（Zod schema）。
+- **閱讀與體驗**：
+  - 響應式佈局，桌面側欄導航 + 手機底部導航，錨點平滑捲動（GSAP）。
+  - SEO 基礎完備：JSON-LD Person、meta、OG、canonical、sitemap、RSS。
+  - 深色／淺色主題、游標效果與微互動。
+- **技術棧**：TypeScript、SCSS、Lucide Icons、GSAP。
 
-## �️ 技術棧
+## 技術棧
 
-- **核心框架**: [Astro v5](https://astro.build/)
-- **樣式預處理**: SCSS / SASS (`modern-normalize` 重置樣式)
-- **圖標系統**: [Lucide Icons](https://lucide.dev/) (via `astro-icon`)
-- **動畫效果**: GSAP
-- **圖片處理**: Sharp (via Astro image optimization)
+- **框架**: [Astro v5](https://astro.build/)
+- **樣式**: SCSS/SASS、[modern-normalize](https://github.com/sindresorhus/modern-normalize)
+- **圖標**: [Lucide Icons](https://lucide.dev/)（透過 `astro-icon`）
+- **動畫**: [GSAP](https://greensock.com/gsap/)（含 ScrollToPlugin）
+- **圖片**: Sharp（Astro 內建優化）
 - **套件管理**: pnpm
 
-## 📂 專案結構
+## 專案結構
 
 ```text
 src/
-├── components/       # UI 元件 (ThemeToggle, Footer, CursorShadow 等)
-├── content/          # 網站內容來源 (Markdown/MDX)
-│   ├── about/        # 自我介紹內容
-│   ├── experience/   # 工作經歷列表
-│   ├── projects/     # 專案作品集
-│   └── articles/     # 技術文章列表
-├── content.config.ts # 定義資料結構 Schema (Type-safe content)
-├── layouts/          # 頁面佈局 (BaseLayout)
-├── pages/            # 路由頁面 (index.astro 為首頁入口)
-├── styles/           # 全域樣式設定
-└── consts.ts         # 網站全域常數定義
+├── components/       # UI 元件
+│   ├── AboutSection/       # 關於我
+│   ├── ArticlesSection/ + ArticleCard/
+│   ├── BaseHead/           # 全域 meta、OG、theme-color
+│   ├── CursorShadow/       # 游標效果
+│   ├── ExperienceSection/ + ExperienceCard/
+│   ├── Footer/             # 底導航 + ThemeToggle
+│   ├── NavigationLinks/    # 側欄導航（含 scroll-spy）
+│   ├── ProjectsSection/ + ProjectCard/
+│   ├── ServicesSection/    # 服務區塊（Content 驅動）
+│   ├── ThemeToggle/        # 深色模式
+│   └── WorkflowSection/    # 合作流程（Content 驅動）
+├── content/          # 內容來源 (Markdown)
+│   ├── about/        # 自我介紹（單一 index.md）
+│   ├── experience/   # 工作經歷
+│   ├── projects/     # 專案作品
+│   ├── articles/     # 技術文章
+│   ├── services/     # 服務項目
+│   └── workflow/     # 合作流程步驟
+├── content.config.ts # 各 collection 的 schema 定義
+├── consts.ts         # SITE_TITLE、SITE_DESCRIPTION、SITE_URL 等
+├── layouts/          # BaseLayout（平滑捲動、scroll-spy、JSON-LD）
+├── pages/            # index.astro 為首頁
+└── styles/           # 全域樣式
 ```
 
-## 🚀 快速開始
+## 快速開始
 
-請確保您的環境已安裝 Node.js (lts 24)。
+建議使用 **Node.js LTS**。
 
-### 1. 安裝依賴
+### 安裝依賴
 
 ```bash
 pnpm install
 ```
 
-### 2. 啟動開發伺服器
+### 開發
 
 ```bash
 pnpm dev
 ```
 
-瀏覽器打開 `http://localhost:4321` 即可進行即時預覽。
+開啟 `http://localhost:4321` 預覽。
 
-### 3. 建置生產版本
+### 建置與預覽
 
 ```bash
 pnpm build
+pnpm preview
 ```
 
-建置後的靜態檔案將輸出至 `dist/` 目錄，可部署至任何靜態託管服務 (如 Vercel, Netlify, Github Pages)。
+產出在 `dist/`，可部署至 Vercel、Netlify、GitHub Pages 等靜態託管。
 
-## 📝 內容編輯
+## 內容編輯
 
-本專案的所有文案內容皆採用 Markdown 管理，位於 `src/content/` 目錄下的對應資料夾中。
+- **關於我**：編輯 `src/content/about/index.md`。
+- **工作經歷**：在 `src/content/experience/` 新增 Markdown，依 schema 填寫 `order`、`date`、`title`、`company`、`tags` 等。
+- **專案**：在 `src/content/projects/` 管理，支援 `image`、`url`、`tags`、`stats`。
+- **文章**：在 `src/content/articles/` 新增，需 `order`、`title`、`image`、`url`。
+- **服務**：在 `src/content/services/` 新增，需 `title`、`order`、`icon`（Lucide 名稱）、`tags`。
+- **合作流程**：在 `src/content/workflow/` 新增步驟，需 `title`、`order`、`icon`，內文為 Markdown。
 
-- **修改個人介紹**: 編輯 `src/content/about/index.md`。
-- **新增工作經歷**: 在 `src/content/experience/` 建立新的 Markdown 檔案，並依照 schema 填寫 metadata (日期、職稱、公司連結等)。
-- **更新專案作品**: 在 `src/content/projects/` 管理作品集，支援圖片與標籤設定。
-- **發布文章**: 在 `src/content/articles/` 新增文章內容。
-
-若需調整網站標題或描述，請修改 `src/consts.ts` 檔案。
+站點標題、描述與網址請在 **`src/consts.ts`** 設定；正式上線前請同步修改 **`astro.config.mjs`** 的 `site` 為實際網址。更多 SEO/AEO/GEO 待辦見 **TODO.md**，專案現況見 **CURRENT_STATUS.md**。
 
 ---
 

@@ -3,7 +3,6 @@ order: 2
 date: '2024.04 — 2024.06'
 title: '前端工程師 (Frontend Engineer)'
 company: '庫果股份有限公司'
-companyUrl: 'https://example.com'
 tags: ['React', 'Next.js', 'System Design', 'DDD']
 ---
 
