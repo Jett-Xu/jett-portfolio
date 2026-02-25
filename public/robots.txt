@@ -1,0 +1,5 @@
+# 請上線前將 https://example.com 改為實際網址
+User-agent: *
+Allow: /
+
+Sitemap: https://example.com/sitemap-index.xml

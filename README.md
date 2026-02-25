@@ -31,11 +31,11 @@ src/
 │   ├── BaseHead/           # 全域 meta、OG、theme-color
 │   ├── CursorShadow/       # 游標效果
 │   ├── ExperienceSection/ + ExperienceCard/
-│   ├── Footer/             # 底導航 + ThemeToggle
+│   ├── Footer/             # 手機版底導航
 │   ├── NavigationLinks/    # 側欄導航（含 scroll-spy）
 │   ├── ProjectsSection/ + ProjectCard/
 │   ├── ServicesSection/    # 服務區塊（Content 驅動）
-│   ├── ThemeToggle/        # 深色模式
+│   ├── ThemeToggle/        # 深色模式（.home-container 右上角絕對定位）
 │   └── WorkflowSection/    # 合作流程（Content 驅動）
 ├── content/          # 內容來源 (Markdown)
 │   ├── about/        # 自我介紹（單一 index.md）

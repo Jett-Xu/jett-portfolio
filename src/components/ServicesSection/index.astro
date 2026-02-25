@@ -2,9 +2,7 @@
 import { getCollection } from 'astro:content';
 import { Icon } from 'astro-icon/components';
 
-const allServices = (await getCollection('services')).sort(
-  (a, b) => a.data.order - b.data.order
-);
+const allServices = (await getCollection('services')).sort((a, b) => a.data.order - b.data.order);
 ---
 
 <section id="services" class="services-section" aria-label="服務項目">
@@ -44,22 +42,15 @@ const allServices = (await getCollection('services')).sort(
 <style>
   .services-section {
     position: relative;
-    min-height: 100vh;
     display: flex;
     flex-direction: column;
 
     @media (max-width: 1023px) {
-      .section-content {
-        padding-top: 2rem;
-        padding-bottom: 4rem;
-      }
     }
-  }
 
-  .section-content {
-    flex: 1;
-    padding-top: 4rem;
-    padding-bottom: 4rem;
+    .section-content {
+      padding: 0 1rem;
+    }
   }
 
   .services-grid {
@@ -83,8 +74,9 @@ const allServices = (await getCollection('services')).sort(
     background: var(--color-bg-glass);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--color-border-secondary);
     border-radius: var(--radius-lg);
+
     transition:
       transform 0.3s ease,
       border-color 0.3s ease,
@@ -111,15 +103,12 @@ const allServices = (await getCollection('services')).sort(
 
   .service-title {
     font-size: 1.25rem;
-    font-weight: 600;
+    font-weight: 700;
     margin: 0 0 1rem 0;
     color: var(--color-text-primary);
-    transition: color 0.3s ease, font-weight 0.3s ease;
-
-    .service-card:hover & {
-      color: #dde0e3;
-      font-weight: 700;
-    }
+    transition:
+      color 0.3s ease,
+      font-weight 0.3s ease;
   }
 
   .service-body {

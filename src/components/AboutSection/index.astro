@@ -10,25 +10,34 @@ const { content: AboutContent } = Astro.props;
 <section id="about" class="about-section" aria-label="關於我">
   <header class="mobile-sticky-header">ABOUT</header>
   <div class="section-content">
-    {AboutContent ? (
-      <AboutContent />
-    ) : (
-      <div class="content-fallback" role="status" aria-live="polite">
-        <p>關於我的內容暫時無法載入，請稍後再試。</p>
-      </div>
-    )}
+    {
+      AboutContent ? (
+        <AboutContent />
+      ) : (
+        <div class="content-fallback" role="status" aria-live="polite">
+          <p>關於我的內容暫時無法載入，請稍後再試。</p>
+        </div>
+      )
+    }
   </div>
 </section>
 
 <style>
   .about-section {
     position: relative;
+    line-height: 1.8;
+    letter-spacing: 0.05em;
+    -webkit-font-smoothing: antialiased;
+    color: var(--color-text-primary);
+
+    .section-content {
+      padding: 0 1rem;
+      p {
+        margin-top: 0;
+      }
+    }
 
     @media (max-width: 1023px) {
-      .section-content {
-        padding-top: 2rem;
-        padding-bottom: 4rem;
-      }
     }
   }
 

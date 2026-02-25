@@ -20,10 +20,10 @@
 
 ### 1.3 技術 SEO
 
-- [ ] **robots.txt**：確認建置產出或 `public/robots.txt` 存在且允許爬取、指向正確的 `sitemap` URL。
-- [ ] **Sitemap**：確認 `@astrojs/sitemap` 產出的 sitemap 包含首頁且 URL 為正式網域。
-- [ ] **標題階層**：全站僅一個 `<h1>`（目前為首頁「Jett」）；其餘區塊標題使用 `<h2>`，子標題依序 `<h3>`，避免跳級。
-- [ ] **圖片**：所有 `<img>` 與 Astro `<Image>` 皆提供有意義的 `alt`（專案／文章卡片已部分具備，需全面檢查）。
+- [x] **robots.txt**：確認建置產出或 `public/robots.txt` 存在且允許爬取、指向正確的 `sitemap` URL。 — 已新增 `public/robots.txt`（2026-02-17），上線前請將內文 Sitemap URL 改為正式網址。
+- [x] **Sitemap**：確認 `@astrojs/sitemap` 產出的 sitemap 包含首頁且 URL 為正式網域。 — 已整合，建置時自動產出 `sitemap-index.xml`，上線前將 `astro.config.mjs` 的 `site` 改為正式網域即可。
+- [x] **標題階層**：全站僅一個 `<h1>`（目前為首頁「Jett」）；其餘區塊標題使用 `<h2>`，子標題依序 `<h3>`，避免跳級。 — 已落實：單一 h1、副標 h2、區塊內卡片/步驟為 h3；區塊標題（ABOUT、EXPERIENCE 等）目前為 `<header>` 未用 h2，可選改為 h2 以強化大綱。
+- [x] **圖片**：所有 `<img>` 與 Astro `<Image>` 皆提供有意義的 `alt`（專案／文章卡片已部分具備，需全面檢查）。 — 已落實：ProjectCard、ArticleCard 之 `<img>` 皆具 `alt={title}`，且設 `width`/`height`、`loading="lazy"`、onerror fallback（2026-02-17）。
 
 ### 1.4 效能與 Core Web Vitals
 

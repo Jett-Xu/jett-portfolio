@@ -36,12 +36,12 @@ src/
 │   ├── CursorShadow/       # 桌面版游標效果
 │   ├── ExperienceSection/  # 經歷區塊
 │   ├── ExperienceCard/     # 經歷卡片（兩欄：日期｜內容）
-│   ├── Footer/             # 手機版底部導航 + ThemeToggle
+│   ├── Footer/             # 手機版底部導航
 │   ├── NavigationLinks/    # 側欄導航（含 scroll-spy 高亮）
 │   ├── ProjectCard/        # 專案卡片
 │   ├── ProjectsSection/    # 專案區塊
 │   ├── ServicesSection/    # 服務區塊（Content Collection）
-│   ├── ThemeToggle/        # 深色模式切換
+│   ├── ThemeToggle/        # 深色模式切換（置於 .home-container 右上角絕對定位）
 │   ├── WorkflowSection/    # 合作流程區塊（Content Collection）
 │   └── ...
 ├── content/
@@ -93,6 +93,8 @@ src/
 | `src/layouts/BaseLayout.astro` | 平滑捲動、scroll-spy、JSON-LD 插槽、skip-link、CursorShadow |
 | `src/pages/index.astro` | 拉取各 collection、組裝 Person schema、渲染各 Section |
 | `public/placeholder.svg` | 圖片載入失敗時 fallback |
+| `public/robots.txt` | 爬蟲規則與 Sitemap 指向；上線前請將 Sitemap URL 改為正式網址 |
+| （建置產出） | Sitemap 由 `@astrojs/sitemap` 於建置時自動產出 `sitemap-index.xml` |
 
 ---
 

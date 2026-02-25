@@ -9,6 +9,7 @@ import ProjectsSection from '@/components/ProjectsSection/index.astro';
 import ArticlesSection from '@/components/ArticlesSection/index.astro';
 import ServicesSection from '@/components/ServicesSection/index.astro';
 import WorkflowSection from '@/components/WorkflowSection/index.astro';
+import ThemeToggle from '@/components/ThemeToggle/index.astro';
 import { SITE_TITLE, SITE_DESCRIPTION, SITE_URL } from '../consts';
 import { Icon } from 'astro-icon/components';
 import './index.scss';
@@ -46,6 +47,9 @@ const schema = {
 
 <BaseLayout title={SITE_TITLE} description={SITE_DESCRIPTION} schema={schema}>
   <div class="home-container">
+    <div class="theme-toggle-placement">
+      <ThemeToggle />
+    </div>
     <header class="header-bar">
       <div class="intro">
         <h1>Jett</h1>
@@ -74,8 +78,7 @@ const schema = {
             <span class="sr-only">發送電子郵件給我</span>
           </a>
         </li>
-        <!-- <li><ThemeToggle /></li> -->
-      </ul>
+        </ul>
     </header>
 
     <main id="main-content" class="main-content">

@@ -1,24 +1,37 @@
 // Section 樣式已移至各自元件中，此處僅保留共用樣式
 // Home Page Layout
 .home-container {
+  position: relative;
   min-height: 100vh;
   max-width: 1280px;
   margin: 0 auto;
-  padding-left: 1.5rem; // px-6
-  padding-right: 1.5rem;
-  padding-top: 3rem; // py-12
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 0;
   padding-bottom: 3rem;
 
+  // 深色模式切換：固定於 .home-container 右上角
+  .theme-toggle-placement {
+    position: absolute;
+    top: 1rem;
+    right: 1.5rem;
+    z-index: 20;
+    @media (min-width: 768px) {
+      top: 1.5rem;
+      right: 5rem;
+    }
+  }
+
   @media (min-width: 768px) {
-    padding-left: 3rem; // md:px-12
+    padding-left: 3rem;
     padding-right: 3rem;
-    padding-top: 4rem; // md:py-16
+    padding-top: 0;
     padding-bottom: 4rem;
   }
   @media (min-width: 1024px) {
     display: flex;
     justify-content: space-between;
-    padding-top: 0; // lg:py-0
+    padding-top: 0;
     padding-bottom: 0;
     gap: 1rem;
   }
@@ -46,7 +59,7 @@
       justify-content: space-between;
       height: 100vh;
       max-height: 100vh;
-      width: 40%;
+      width: 50%;
       padding-top: 6rem; // py-24
       padding-bottom: 6rem;
     }
@@ -81,13 +94,15 @@
   }
 
   .main-content {
-    padding-top: 6rem; // py-24
-    flex: 1;
-    // overflow-y: auto;
+    padding-top: 6rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5rem;
     min-height: 100vh;
     @media (min-width: 1024px) {
-      width: 60%;
-      padding-top: 6rem; // py-24
+      width: 50%;
+      padding-top: 6rem;
       padding-bottom: 6rem;
     }
   }
@@ -104,8 +119,7 @@
     top: 0;
     left: 0;
     width: 100vw; // 佔滿寬度
-    margin-left: -1.5rem; // 抵消 home-container 的 padding-left
-    padding: 1.5rem 1.5rem; // 保持文字對齊
+    padding: 1.5rem 1rem; // 保持文字對齊
 
     font-size: 0.85rem;
     font-weight: 700;

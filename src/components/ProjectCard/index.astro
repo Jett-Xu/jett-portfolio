@@ -30,20 +30,23 @@ const { title, image, url, tags, stats, content: Content } = Astro.props;
   <div class="project-info">
     <h3 class="project-title-row">
       <a href={url} class="project-title" target="_blank" rel="noopener noreferrer">
-        {title} <span class="icon-arrow">↗</span>
+        {title}
+        <span class="icon-arrow">↗</span>
       </a>
     </h3>
     <div class="project-desc">
       <Content />
       {stats && <div class="project-meta">{stats}</div>}
     </div>
-    {tags && tags.length > 0 && (
-      <div class="project-tags">
-        {tags.map((tag) => (
-          <span class="project-tag">{tag}</span>
-        ))}
-      </div>
-    )}
+    {
+      tags && tags.length > 0 && (
+        <div class="project-tags">
+          {tags.map((tag) => (
+            <span class="project-tag">{tag}</span>
+          ))}
+        </div>
+      )
+    }
   </div>
 </article>
 
@@ -52,10 +55,11 @@ const { title, image, url, tags, stats, content: Content } = Astro.props;
     display: flex;
     align-items: flex-start;
     background: var(--color-bg-primary);
-    border-radius: 0.75rem; /* 約 12px，與 ExperienceCard 一致 */
-    box-shadow: 0 2px 16px 0 var(--color-shadow-light);
+    border-radius: 0.75rem;
     padding: 2rem;
-    transition: background 0.3s ease, box-shadow 0.3s ease;
+    transition:
+      background 0.3s ease,
+      box-shadow 0.3s ease;
     border: 1px solid var(--color-border-secondary);
     position: relative;
     overflow: hidden;

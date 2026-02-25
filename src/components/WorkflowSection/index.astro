@@ -2,9 +2,7 @@
 import { getCollection } from 'astro:content';
 import { Icon } from 'astro-icon/components';
 
-const allSteps = (await getCollection('workflow')).sort(
-  (a, b) => a.data.order - b.data.order
-);
+const allSteps = (await getCollection('workflow')).sort((a, b) => a.data.order - b.data.order);
 
 const stepsWithContent = await Promise.all(
   allSteps.map(async (entry) => {
@@ -49,23 +47,14 @@ const stepsWithContent = await Promise.all(
 <style>
   .workflow-section {
     position: relative;
-    min-height: 100vh;
     display: flex;
     flex-direction: column;
 
     @media (max-width: 1023px) {
-      .section-content {
-        padding-top: 2rem;
-        padding-bottom: 4rem;
-      }
     }
-  }
-
-  .section-content {
-    flex: 1;
-    padding-top: 4rem;
-    padding-bottom: 4rem;
-    max-width: 42rem;
+    .section-content {
+      padding: 0 1rem;
+    }
   }
 
   .workflow-intro {
@@ -129,11 +118,7 @@ const stepsWithContent = await Promise.all(
     min-height: 1.5rem;
     width: 2px;
     margin-top: 0.5rem;
-    background: linear-gradient(
-      to bottom,
-      var(--color-border-primary),
-      rgba(255, 255, 255, 0.06)
-    );
+    background: linear-gradient(to bottom, var(--color-border-primary), rgba(255, 255, 255, 0.06));
     border-radius: 1px;
   }
 

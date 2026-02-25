@@ -47,17 +47,26 @@
 
     #cursor-spotlight {
       display: block;
-      top: -300px;
-      left: -300px;
-      width: 600px;
-      height: 600px;
+      top: -400px;
+      left: -400px;
+      width: 800px;
+      height: 800px;
+      background:
+        radial-gradient(circle at center, ...),
+        /* 你的漸層 */ url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAy...'); /* 微弱雜訊圖層 */
+      background-blend-mode: overlay;
       background: radial-gradient(
         circle at center,
         rgba(var(--spotlight-color), var(--spotlight-opacity)) 0%,
-        rgba(var(--spotlight-color), calc(var(--spotlight-opacity) * 0.1)) 30%,
+        rgba(var(--spotlight-color), calc(var(--spotlight-opacity) * 0.35)) 45%,
+        rgba(var(--spotlight-color), calc(var(--spotlight-opacity) * 0.1)) 70%,
         rgba(var(--spotlight-color), 0) 100%
       );
-      filter: blur(30px);
+
+      /* 增加模糊度到容器寬度的 1/6 或 1/5 */
+      filter: blur(80px);
+
+      /* 確保混合模式在暗色背景下運作 */
       mix-blend-mode: screen;
       z-index: 9998;
       transition: transform 0.3s cubic-bezier(0.1, 1, 0.3, 1);

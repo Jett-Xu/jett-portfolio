@@ -27,7 +27,8 @@ const { title, image, url, content: Content } = Astro.props;
   <div class="article-info">
     <h3 class="article-title-row">
       <a href={url} class="article-title" target="_blank" rel="noopener noreferrer">
-        {title} <span class="icon-arrow">↗</span>
+        {title}
+        <span class="icon-arrow">↗</span>
       </a>
     </h3>
     <div class="article-desc">
@@ -42,9 +43,10 @@ const { title, image, url, content: Content } = Astro.props;
     align-items: flex-start;
     background: var(--color-bg-primary);
     border-radius: 0.75rem; /* 約 12px，與其他卡片一致 */
-    box-shadow: 0 2px 16px 0 var(--color-shadow-light);
     padding: 2rem;
-    transition: background 0.3s ease, box-shadow 0.3s ease;
+    transition:
+      background 0.3s ease,
+      box-shadow 0.3s ease;
     border: 1px solid var(--color-border-secondary);
     position: relative;
     overflow: hidden;
