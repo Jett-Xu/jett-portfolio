@@ -2,7 +2,7 @@
 order: 1
 title: 'Service Worker CDN Optimizer'
 image: 'https://placehold.co/180x110/3b82f6/fff?text=CDN+Optimizer'
-url: 'https://github.com/Jett-Xu'
+url: 'https://service-worker-example.pages.dev/'
 tags: ['React', 'Service Worker', 'Performance', 'Next.js']
 stats: '🚀 節省 50% CDN 成本'
 ---
